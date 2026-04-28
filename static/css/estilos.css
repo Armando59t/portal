@@ -1,0 +1,75 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+
+    background:
+        linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.95)),
+        url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* HEADER */
+header {
+    background: #1e3a5f;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+/* CONTENEDOR */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 750px;
+    padding: 25px;
+    border-radius: 10px;
+    background: white;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+h2 { text-align: center; }
+h3 { color: #1e3a5f; }
+
+/* INPUTS */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* BOTÓN */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #2f5d8c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* LINKS */
+.link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #2f5d8c;
+}
+
+/* OCULTO */
+.hidden { display: none; }
