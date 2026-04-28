@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Portal Académico</title>
+<link rel="stylesheet" href="/static/css/estilos.css">
+</head>
+
+<body>
+
+<header>
+    <h2>Portal Académico</h2>
+</header>
+
+<div class="main">
+
+<div class="container" id="registro">
+    <h2>Registro</h2>
+    <input id="reg_user" placeholder="Usuario">
+    <input id="reg_email" placeholder="Correo institucional">
+    <input id="reg_pass" type="password" placeholder="Contraseña">
+    <button onclick="registrar()">Registrar</button>
+    <span class="link" onclick="mostrarLogin()">Ir a login</span>
+</div>
+
+<div class="container hidden" id="login">
+    <h2>Login</h2>
+    <input id="log_user" placeholder="Usuario">
+    <input id="log_pass" type="password" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
+    <span class="link" onclick="mostrarRegistro()">Crear cuenta</span>
+</div>
+
+<div class="container hidden" id="formulario">
+    <h2>Reinscripción</h2>
+    <button onclick="enviar()">Enviar reinscripción</button>
+</div>
+
+</div>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>
