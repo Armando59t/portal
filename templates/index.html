@@ -14,26 +14,31 @@
 
 <div class="main">
 
+<!-- REGISTRO -->
 <div class="container" id="registro">
     <h2>Registro</h2>
     <input id="reg_user" placeholder="Usuario">
-    <input id="reg_email" placeholder="Correo institucional">
     <input id="reg_pass" type="password" placeholder="Contraseña">
-    <button onclick="registrar()">Registrar</button>
-    <span class="link" onclick="mostrarLogin()">Ir a login</span>
+    <button type="button" onclick="registrar()">Registrar</button>
+    <p id="msg_registro"></p>
+    <button type="button" onclick="mostrarLogin()">Ir a login</button>
 </div>
 
+<!-- LOGIN -->
 <div class="container hidden" id="login">
     <h2>Login</h2>
     <input id="log_user" placeholder="Usuario">
     <input id="log_pass" type="password" placeholder="Contraseña">
-    <button onclick="login()">Entrar</button>
-    <span class="link" onclick="mostrarRegistro()">Crear cuenta</span>
+    <button type="button" onclick="login()">Entrar</button>
+    <p id="msg_login"></p>
+    <button type="button" onclick="mostrarRegistro()">Crear cuenta</button>
 </div>
 
-<div class="container hidden" id="formulario">
-    <h2>Reinscripción</h2>
-    <button onclick="enviar()">Enviar reinscripción</button>
+<!-- PANEL -->
+<div class="container hidden" id="panel">
+    <h2>Bienvenido</h2>
+    <p id="usuario_activo"></p>
+    <button onclick="logout()">Cerrar sesión</button>
 </div>
 
 </div>
