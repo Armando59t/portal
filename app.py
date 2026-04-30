@@ -7,7 +7,8 @@ app = Flask(__name__)
 CORS(app)
 
 # 🔗 MEJOR usar variable de entorno (Render)
-MONGO_URI = os.getenv("MONGO_URI")
+MONGO_URI = os.getenv("mongodb+srv://ricardopauljose92_db_user:sSondflxoc6PIFw6@cluster0.tmppfp7.mongodb.net/?retryWrites=true&w=majority"
+)
 
 # ⚠️ Si quieres probar localmente, usa esto (con comillas)
 # MONGO_URI = "mongodb+srv://ricardopauljose92_db_user:sSondflxoc6PIFw6@cluster0.tmppfp7.mongodb.net/?retryWrites=true&w=majority"
