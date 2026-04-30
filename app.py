@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-# 🔗 PON TU MONGO AQUÍ
-MONGO_URI =mongodb+srv://ricardopauljose92_db_user:sSondflxoc6PIFw6@cluster0.tmppfp7.mongodb.net/?appName=Cluster0
+# 🔗 MEJOR usar variable de entorno (Render)
+MONGO_URI = os.getenv("MONGO_URI")
+
+# ⚠️ Si quieres probar localmente, usa esto (con comillas)
+# MONGO_URI = "mongodb+srv://ricardopauljose92_db_user:sSondflxoc6PIFw6@cluster0.tmppfp7.mongodb.net/?retryWrites=true&w=majority"
 
 client = MongoClient(MONGO_URI)
 db = client["portal_academico"]
