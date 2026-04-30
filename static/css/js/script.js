@@ -11,61 +11,61 @@ function mostrarRegistro(){
 
 // REGISTRO
 function registrar(){
-    const usuario = document.getElementById("reg_user").value;
-    const correo = document.getElementById("reg_email").value;
-    const password = document.getElementById("reg_pass").value;
-
     fetch("/registro", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ usuario, correo, password })
+        body: JSON.stringify({
+            usuario: reg_user.value,
+            password: reg_pass.value
+        })
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-
-        if(data.mensaje){
-            alert("Registro exitoso");
-            mostrarLogin();
-        } else {
-            alert(data.error);
-        }
-    })
-    .catch(err => console.error("Error:", err));
+        msg_registro.innerText = data.mensaje || data.error;
+        if(data.mensaje) mostrarLogin();
+    });
 }
 
 // LOGIN
 function login(){
-    const usuario = document.getElementById("log_user").value;
-    const password = document.getElementById("log_pass").value;
-
     fetch("/login", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ usuario, password })
+        body: JSON.stringify({
+            usuario: log_user.value,
+            password: log_pass.value
+        })
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-
         if(data.mensaje){
-            document.getElementById("login").classList.add("hidden");
-            document.getElementById("formulario").classList.remove("hidden");
+            cargarSesion();
         } else {
-            alert(data.error);
+            msg_login.innerText = data.error;
         }
-    })
-    .catch(err => console.error("Error:", err));
+    });
 }
 
-// REINSCRIPCIÓN
-function enviar(){
-    fetch("/reinscripcion", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ ejemplo: "ok" })
-    })
+// CARGAR SESIÓN
+function cargarSesion(){
+    fetch("/sesion")
     .then(res => res.json())
-    .then(data => alert(data.mensaje))
-    .catch(err => console.error("Error:", err));
+    .then(data => {
+        if(data.usuario){
+            document.getElementById("login").classList.add("hidden");
+            document.getElementById("registro").classList.add("hidden");
+            document.getElementById("panel").classList.remove("hidden");
+
+            usuario_activo.innerText = "Usuario: " + data.usuario;
+        }
+    });
 }
+
+// LOGOUT
+function logout(){
+    fetch("/logout")
+    .then(() => location.reload());
+}
+
+// AUTO LOGIN
+window.onload = cargarSesion;
