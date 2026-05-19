@@ -1,0 +1,33 @@
+<!-- templates/editar_cliente.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+</head>
+
+<body>
+
+    <h1>Editar Cliente</h1>
+
+    <form action="/actualizar_cliente/{{ cliente._id }}" method="POST">
+
+        <input type="text" name="nombre" value="{{ cliente.nombre }}">
+
+        <input type="number" name="edad" value="{{ cliente.edad }}">
+
+        <input type="email" name="correo" value="{{ cliente.correo }}">
+
+        <input type="text" name="telefono" value="{{ cliente.telefono }}">
+
+        <button type="submit">
+            Actualizar
+        </button>
+
+    </form>
+
+</body>
+
+</html>
