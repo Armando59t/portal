@@ -9,7 +9,7 @@ app = Flask(__name__)
 # CONEXIÓN MONGODB ATLAS
 # =========================
 
-MONGO_URI = "mongodb+srv://Armando:Armando@cluster0.hmkf3ka.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://Armando:Armando@cluster0.hmkf3ka.mongodb.net/tienda?retryWrites=true&w=majority&appName=Cluster0"
 
 cliente = MongoClient(MONGO_URI)
 
@@ -41,16 +41,14 @@ def inicio():
 @app.route("/agregar_cliente", methods=["POST"])
 def agregar_cliente():
 
-    nuevo_cliente = {
+    clientes.insert_one({
 
         "nombre": request.form["nombre"],
         "edad": request.form["edad"],
         "correo": request.form["correo"],
         "telefono": request.form["telefono"]
 
-    }
-
-    clientes.insert_one(nuevo_cliente)
+    })
 
     return redirect("/")
 
@@ -61,27 +59,25 @@ def agregar_cliente():
 @app.route("/agregar_producto", methods=["POST"])
 def agregar_producto():
 
-    nuevo_producto = {
+    productos.insert_one({
 
         "nombre": request.form["nombre"],
         "precio": request.form["precio"],
         "stock": request.form["stock"],
         "categoria": request.form["categoria"]
 
-    }
-
-    productos.insert_one(nuevo_producto)
+    })
 
     return redirect("/")
 
 # =========================
-# BUSCAR CLIENTE
+# BUSCAR
 # =========================
 
 @app.route("/buscar")
 def buscar():
 
-    nombre = request.args.get("nombre")
+    nombre = request.args.get("nombre", "")
 
     resultado = clientes.find({
         "nombre": {"$regex": nombre, "$options": "i"}
@@ -119,7 +115,7 @@ def eliminar_producto(id):
     return redirect("/")
 
 # =========================
-# FORMULARIO EDITAR CLIENTE
+# EDITAR CLIENTE
 # =========================
 
 @app.route("/editar_cliente/<id>")
@@ -161,7 +157,7 @@ def actualizar_cliente(id):
     return redirect("/")
 
 # =========================
-# FORMULARIO EDITAR PRODUCTO
+# EDITAR PRODUCTO
 # =========================
 
 @app.route("/editar_producto/<id>")
@@ -207,8 +203,4 @@ def actualizar_producto(id):
 # =========================
 
 if __name__ == "__main__":
-
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 10000))
-    )
+    app.run(host="0.0.0.0", port=10000)
