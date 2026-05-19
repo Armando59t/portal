@@ -1,48 +1,167 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Portal Académico</title>
-<link rel="stylesheet" href="/static/css/estilos.css">
+
+    <meta charset="UTF-8">
+
+    <title>CRUD Tienda</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 40px;
+        }
+
+        form{
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input{
+            padding: 10px;
+            margin: 5px;
+            width: 200px;
+        }
+
+        button{
+            padding: 10px;
+            border: none;
+            background: blue;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .card{
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        a{
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-<header>
-    <h2>Portal Académico</h2>
-</header>
+    <h1>CRUD Tienda MongoDB</h1>
 
-<div class="main">
+    <hr>
 
-<!-- REGISTRO -->
-<div class="container" id="registro">
-    <h2>Registro</h2>
-    <input id="reg_user" placeholder="Usuario">
-    <input id="reg_pass" type="password" placeholder="Contraseña">
-    <button type="button" onclick="registrar()">Registrar</button>
-    <p id="msg_registro"></p>
-    <button type="button" onclick="mostrarLogin()">Ir a login</button>
-</div>
+    <h2>Registrar Cliente</h2>
 
-<!-- LOGIN -->
-<div class="container hidden" id="login">
-    <h2>Login</h2>
-    <input id="log_user" placeholder="Usuario">
-    <input id="log_pass" type="password" placeholder="Contraseña">
-    <button type="button" onclick="login()">Entrar</button>
-    <p id="msg_login"></p>
-    <button type="button" onclick="mostrarRegistro()">Crear cuenta</button>
-</div>
+    <form action="/agregar_cliente" method="POST">
 
-<!-- PANEL -->
-<div class="container hidden" id="panel">
-    <h2>Bienvenido</h2>
-    <p id="usuario_activo"></p>
-    <button onclick="logout()">Cerrar sesión</button>
-</div>
+        <input type="text" name="nombre" placeholder="Nombre" required>
 
-</div>
+        <input type="number" name="edad" placeholder="Edad" required>
 
-<script src="/static/js/script.js"></script>
+        <input type="email" name="correo" placeholder="Correo" required>
+
+        <input type="text" name="telefono" placeholder="Teléfono" required>
+
+        <button type="submit">Guardar Cliente</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Registrar Producto</h2>
+
+    <form action="/agregar_producto" method="POST">
+
+        <input type="text" name="nombre" placeholder="Nombre" required>
+
+        <input type="number" name="precio" placeholder="Precio" required>
+
+        <input type="number" name="stock" placeholder="Stock" required>
+
+        <input type="text" name="categoria" placeholder="Categoría" required>
+
+        <button type="submit">Guardar Producto</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Buscar Cliente</h2>
+
+    <form action="/buscar">
+
+        <input type="text" name="nombre" placeholder="Nombre">
+
+        <button type="submit">Buscar</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Clientes</h2>
+
+    {% for cliente in clientes %}
+
+        <div class="card">
+
+            <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+
+            <p><strong>Edad:</strong> {{ cliente.edad }}</p>
+
+            <p><strong>Correo:</strong> {{ cliente.correo }}</p>
+
+            <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+
+            <a href="/editar_cliente/{{ cliente._id }}">
+                Editar
+            </a>
+
+            <a href="/eliminar_cliente/{{ cliente._id }}">
+                Eliminar
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+    <hr>
+
+    <h2>Productos</h2>
+
+    {% for producto in productos %}
+
+        <div class="card">
+
+            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+
+            <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+
+            <a href="/editar_producto/{{ producto._id }}">
+                Editar
+            </a>
+
+            <a href="/eliminar_producto/{{ producto._id }}">
+                Eliminar
+            </a>
+
+        </div>
+
+    {% endfor %}
+
 </body>
+
 </html>
