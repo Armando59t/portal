@@ -1,61 +1,212 @@
-from flask import Flask, request, jsonify, render_template, session
-from flask_cors import CORS
+# app.py
+
+
+from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
-import os
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = "secreto123"  # 🔐 necesario para sesiones
-CORS(app)
 
-MONGO_URI = "TU_URI_AQUI"
-client = MongoClient(MONGO_URI)
-db = client["portal_academico"]
+# =========================
+# CONEXIÓN MONGODB ATLAS
+# =========================
 
-usuarios = db["usuarios"]
+MONGO_URI = "mongodb+srv://Armando:Armando@cluster0.hmkf3ka.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+cliente = MongoClient(MONGO_URI)
+
+db = cliente["tienda"]
+
+clientes = db["clientes"]
+productos = db["productos"]
+
+# =========================
+# INICIO
+# =========================
 
 @app.route("/")
-def home():
-    return render_template("index.html")
+def inicio():
 
-# REGISTRO
-@app.route("/registro", methods=["POST"])
-def registro():
-    data = request.json
+    lista_clientes = clientes.find()
+    lista_productos = productos.find()
 
-    if usuarios.find_one({"usuario": data["usuario"]}):
-        return jsonify({"error": "Usuario ya existe"})
+    return render_template(
+        "index.html",
+        clientes=lista_clientes,
+        productos=lista_productos
+    )
 
-    usuarios.insert_one(data)
-    return jsonify({"mensaje": "Registrado correctamente"})
+# =========================
+# CREAR CLIENTE
+# =========================
 
-# LOGIN
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.json
+@app.route("/agregar_cliente", methods=["POST"])
+def agregar_cliente():
 
-    user = usuarios.find_one({
-        "usuario": data["usuario"],
-        "password": data["password"]
+    nuevo_cliente = {
+
+        "nombre": request.form["nombre"],
+        "edad": request.form["edad"],
+        "correo": request.form["correo"],
+        "telefono": request.form["telefono"]
+
+    }
+
+    clientes.insert_one(nuevo_cliente)
+
+    return redirect("/")
+
+# =========================
+# CREAR PRODUCTO
+# =========================
+
+@app.route("/agregar_producto", methods=["POST"])
+def agregar_producto():
+
+    nuevo_producto = {
+
+        "nombre": request.form["nombre"],
+        "precio": request.form["precio"],
+        "stock": request.form["stock"],
+        "categoria": request.form["categoria"]
+
+    }
+
+    productos.insert_one(nuevo_producto)
+
+    return redirect("/")
+
+# =========================
+# BUSCAR CLIENTE
+# =========================
+
+@app.route("/buscar")
+def buscar():
+
+    nombre = request.args.get("nombre")
+
+    resultado = clientes.find({
+        "nombre": {"$regex": nombre, "$options": "i"}
     })
 
-    if user:
-        session["usuario"] = data["usuario"]
-        return jsonify({"mensaje": "Login correcto"})
-    else:
-        return jsonify({"error": "Datos incorrectos"})
+    return render_template(
+        "buscar.html",
+        clientes=resultado
+    )
 
-# SESIÓN ACTUAL
-@app.route("/sesion")
-def sesion():
-    if "usuario" in session:
-        return jsonify({"usuario": session["usuario"]})
-    return jsonify({"usuario": None})
+# =========================
+# ELIMINAR CLIENTE
+# =========================
 
-# LOGOUT
-@app.route("/logout")
-def logout():
-    session.clear()
-    return jsonify({"mensaje": "Sesión cerrada"})
+@app.route("/eliminar_cliente/<id>")
+def eliminar_cliente(id):
+
+    clientes.delete_one({
+        "_id": ObjectId(id)
+    })
+
+    return redirect("/")
+
+# =========================
+# ELIMINAR PRODUCTO
+# =========================
+
+@app.route("/eliminar_producto/<id>")
+def eliminar_producto(id):
+
+    productos.delete_one({
+        "_id": ObjectId(id)
+    })
+
+    return redirect("/")
+
+# =========================
+# FORMULARIO EDITAR CLIENTE
+# =========================
+
+@app.route("/editar_cliente/<id>")
+def editar_cliente(id):
+
+    cliente_editar = clientes.find_one({
+        "_id": ObjectId(id)
+    })
+
+    return render_template(
+        "editar_cliente.html",
+        cliente=cliente_editar
+    )
+
+# =========================
+# ACTUALIZAR CLIENTE
+# =========================
+
+@app.route("/actualizar_cliente/<id>", methods=["POST"])
+def actualizar_cliente(id):
+
+    clientes.update_one(
+
+        {"_id": ObjectId(id)},
+
+        {
+            "$set": {
+
+                "nombre": request.form["nombre"],
+                "edad": request.form["edad"],
+                "correo": request.form["correo"],
+                "telefono": request.form["telefono"]
+
+            }
+        }
+
+    )
+
+    return redirect("/")
+
+# =========================
+# FORMULARIO EDITAR PRODUCTO
+# =========================
+
+@app.route("/editar_producto/<id>")
+def editar_producto(id):
+
+    producto_editar = productos.find_one({
+        "_id": ObjectId(id)
+    })
+
+    return render_template(
+        "editar_producto.html",
+        producto=producto_editar
+    )
+
+# =========================
+# ACTUALIZAR PRODUCTO
+# =========================
+
+@app.route("/actualizar_producto/<id>", methods=["POST"])
+def actualizar_producto(id):
+
+    productos.update_one(
+
+        {"_id": ObjectId(id)},
+
+        {
+            "$set": {
+
+                "nombre": request.form["nombre"],
+                "precio": request.form["precio"],
+                "stock": request.form["stock"],
+                "categoria": request.form["categoria"]
+
+            }
+        }
+
+    )
+
+    return redirect("/")
+
+# =========================
+# EJECUTAR
+# =========================
 
 if __name__ == "__main__":
     app.run(debug=True)
