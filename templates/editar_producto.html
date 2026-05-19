@@ -1,0 +1,33 @@
+<!-- templates/editar_producto.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+</head>
+
+<body>
+
+    <h1>Editar Producto</h1>
+
+    <form action="/actualizar_producto/{{ producto._id }}" method="POST">
+
+        <input type="text" name="nombre" value="{{ producto.nombre }}">
+
+        <input type="number" name="precio" value="{{ producto.precio }}">
+
+        <input type="number" name="stock" value="{{ producto.stock }}">
+
+        <input type="text" name="categoria" value="{{ producto.categoria }}">
+
+        <button type="submit">
+            Actualizar
+        </button>
+
+    </form>
+
+</body>
+
+</html>
