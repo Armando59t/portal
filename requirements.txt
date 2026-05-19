@@ -1,6 +1,4 @@
-flask
-flask-cors
+Flask
 pymongo
 gunicorn
-bcrypt
-python-dotenv
+dnspython
