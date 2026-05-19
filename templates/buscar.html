@@ -1,0 +1,30 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda</title>
+</head>
+
+<body>
+
+    <h1>Resultado de búsqueda</h1>
+
+    {% for cliente in clientes %}
+
+        <p>{{ cliente.nombre }}</p>
+        <p>{{ cliente.edad }}</p>
+        <p>{{ cliente.correo }}</p>
+        <p>{{ cliente.telefono }}</p>
+
+        <hr>
+
+    {% endfor %}
+
+    <a href="/">Volver</a>
+
+</body>
+
+</html>
