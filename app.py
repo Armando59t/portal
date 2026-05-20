@@ -9,7 +9,7 @@ app = Flask(__name__)
 # CONEXIÓN MONGODB ATLAS
 # =========================
 
-MONGO_URI = "mongodb+srv://admin:admin123@cluster0.d6hvtmm.mongodb.net/tienda?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://Admin:admin123@cluster0.d6hwtmm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 cliente = MongoClient(MONGO_URI)
 
